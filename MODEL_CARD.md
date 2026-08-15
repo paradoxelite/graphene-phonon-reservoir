@@ -3,7 +3,9 @@
 ## Identidad
 
 - Tipo: simulador reducido determinista con heterogeneidad sembrada.
-- Versión candidata: 1.0.0.
+- versión del software: `1.0.1`; identifica el repositorio y esta ficha.
+- versión del informe científico congelado: `1.0.0`; identifica `paper/main.tex` y `paper/main.pdf`.
+- Relación: el informe se conserva byte a byte junto con los demás payloads científicos en el patch de software 1.0.1; su rótulo histórico no identifica la versión del repositorio que los distribuye.
 - Evidencia: exclusivamente simulación.
 - Resultado principal: negativo bajo el protocolo canónico.
 
@@ -59,7 +61,7 @@ No se observó ventaja computacional. El intervalo bootstrap de la diferencia NA
 - Publicación recuperable de cinco payloads bajo lock de OS: journal durable previo a backups, restauración idempotente al reiniciar, rechazo de reparse points, rollback probado y manifiesto SHA-256 estricto instalado al final. Toda lectura de confianza captura las identidades físicas de todos los componentes antes de `open`, liga el descriptor a ese snapshot, aplica límites explícitos y revalida al cierre; crecimiento y sustitución pre-open/en lectura tienen falsificadores dedicados, incluso con bytes idénticos.
 - Tipos públicos fail-closed: enteros no booleanos, flags `bool` exactos, escalares físicos reales finitos, índices ópticos numéricos finitos/no nulos y rechazo de señales, gaps o desplazamientos booleanos/textuales como entrada numérica.
 - Ausencia de *leakage* del conjunto de prueba.
-- Regeneración de resultados y figuras.
+- Regeneración de resultados y figuras: bytes exactos en Windows canónico; en Ubuntu, estructura/texto exactos, floats dentro de `rtol=2e-11`/`atol=2e-12` y píxeles RGBA exactos.
 - Margen de dominio: hueco mínimo observado `0.838 g`, límite fail-closed `0.05 g`.
 
 ## Riesgos y límites
@@ -68,6 +70,7 @@ No se observó ventaja computacional. El intervalo bootstrap de la diferencia NA
 - Los parámetros ilustrativos no provienen de un dispositivo único caracterizado.
 - La lectura simula canales simultáneos; no incluye óptica ni adquisición realizables.
 - El tamaño muestral (12 pares) describe el protocolo, no el universo de diseños.
+- No se reclama identidad binaria de JSON/PNG entre sistemas operativos: BLAS y la codificación PNG pueden cambiar bytes sin cambiar estructura, conclusiones o píxeles.
 - No hubo preregistro externo.
 
 ## Decisión de uso

@@ -198,8 +198,12 @@ def test_frozen_environment_matches_lock_and_ci():
     assert lock.count("--hash=sha256:") >= 500
     assert 'python-version: "3.11.9"' in ci
     assert 'PYTHONDONTWRITEBYTECODE: "1"' in ci
-    assert "${{ runner.temp }}" not in ci
-    assert "PYTHONPYCACHEPREFIX: /tmp/graphene-pycache" in ci
+    assert "matrix:" in ci
+    assert "os: [ubuntu-24.04, windows-2025]" in ci
+    assert "runs-on: ${{ matrix.os }}" in ci
+    assert "      PYTHONPYCACHEPREFIX:" not in ci.splitlines()
+    assert ci.count("PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache") == 1
+    assert "PYTHONPYCACHEPREFIX: /tmp/graphene-pycache" not in ci
     assert "python -m pytest -q -p no:cacheprovider" in ci
     assert "actions/checkout@11d5960a326750d5838078e36cf38b85af677262" in ci
     assert "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065" in ci
@@ -225,6 +229,23 @@ def test_corrected_mechanical_reservoir_doi_is_used():
     )
 
 
+def test_release_and_frozen_report_versions_are_explicitly_distinct():
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    model_card = (ROOT / "MODEL_CARD.md").read_text(encoding="utf-8")
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    report_source = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
+
+    assert version == "1.0.1"
+    assert r"\date{Versión 1.0.0" in report_source
+    for document in (readme, model_card):
+        assert "versión del software: `1.0.1`" in document
+        assert "versión del informe científico congelado: `1.0.0`" in document
+        assert "se conserva byte a byte" in document
+    assert "software v1.0.1" in citation
+    assert "informe técnico congelado v1.0.0" in citation
+
+
 def test_citation_metadata_matches_version_and_scope():
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
@@ -232,5 +253,5 @@ def test_citation_metadata_matches_version_and_scope():
     assert "cff-version: 1.2.0" in citation
     assert f"version: {version}" in citation
     assert "negative result" in citation
-    assert "date-released: 2026-08-14" in citation
+    assert "date-released: 2026-08-15" in citation
     assert "license:" not in citation

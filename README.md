@@ -4,6 +4,15 @@
 
 Este repositorio evalúa un modelo reducido de modos mecánicos acoplados inspirado en resonadores de grafeno. **No es un dispositivo construido, una validación experimental ni un gemelo digital de una geometría fabricada.**
 
+## Identidad de versión
+
+Esta publicación conserva dos dominios de versión intencionalmente independientes:
+
+- versión del software: `1.0.1`; identifica el repositorio, `VERSION`, `CITATION.cff`, esta documentación y la corrección del contrato de CI multiplataforma;
+- versión del informe científico congelado: `1.0.0`; identifica `paper/main.tex`, `paper/main.pdf` y la generación científica publicada originalmente con `v1.0.0`.
+
+El informe científico se conserva byte a byte junto con los demás payloads congelados en la versión de software 1.0.1: no se regenera ni se reinterpreta para corregir CI. Por ello el rótulo «Versión 1.0.0» de la primera página es la identidad histórica del informe, no la versión del software que lo distribuye. Al citar, use software `v1.0.1` para el repositorio y versión `1.0.0` para el informe incluido.
+
 La comprobación canónica usa 12 pares de semillas y no encontró ventaja computacional del modelo no lineal bajo el protocolo congelado:
 
 | Tarea | Modelo no lineal | Ablación mecánica lineal | Línea de retardo digital |
@@ -23,7 +32,7 @@ En NARMA-10, la diferencia pareada no lineal menos lineal fue **+0.033** (IC boo
 - Línea de retardo digital como referencia separada.
 - Separación cronológica; escalado y readout ajustados sólo con el prefijo de entrenamiento.
 - 12 pares de semillas explícitos, frecuencias realizadas serializadas por trial, 10 000 remuestras bootstrap y las diez subsemillas efectivas registradas.
-- Pruebas de límites ópticos, contacto, disipación, refinamiento temporal, semillas, ausencia de *leakage* y reproducción byte a byte de JSON/figuras.
+- Pruebas de límites ópticos, contacto, disipación, refinamiento temporal, semillas y ausencia de *leakage*. En el entorno Windows canónico, JSON y PNG se reproducen byte a byte; en Linux se exige estructura/texto exactos, equivalencia numérica estrecha y píxeles RGBA exactos.
 - Margen de dominio registrado: el hueco mínimo entre 48 trayectorias fue **0.838 g**, lejos del límite de contacto **0.05 g**.
 
 ## Qué no demuestra
@@ -106,6 +115,8 @@ export MPLCONFIGDIR="$RUN_ROOT/mpl"
 
 Ambas recetas eliminan primero todas las variables heredadas `PIP_*` y anulan los archivos de configuración efectivos de pip (`NUL` o `/dev/null`). Así, `--use-feature=truststore` conserva verificación TLS sin heredar `trusted-host`; `--require-hashes` verifica además cada distribución instalada.
 
+Los artefactos congelados de esta versión usan Windows x86-64 como plataforma canónica de bytes. Con las mismas versiones bloqueadas, Ubuntu 24.04 conserva todas las claves y textos; 51 floats derivados de BLAS difieren como máximo `1.65e-12` en valor absoluto y `1.38e-11` en valor relativo. Los PNG decodifican a dimensiones y píxeles RGBA idénticos aunque su codificación binaria difiera. La suite falla si se exceden `rtol=2e-11` o `atol=2e-12`, si cambia cualquier campo no flotante o cualquier píxel, y conserva la comparación byte a byte completa en Windows. Esto es portabilidad numérica/visual medida, no identidad binaria entre sistemas operativos.
+
 `reproduce.py` es la entrada única para regenerar:
 
 - `results.json`;
@@ -121,7 +132,7 @@ Las lecturas que deciden confianza no usan `Path.read_bytes()`: capturan primero
 
 Las APIs numéricas preservan procedencia mediante una sola instantánea por entrada: validan sus escalares originales y convierten esa misma instantánea, sin volver a leer proveedores array-like stateful. Enteros no aceptan booleanos ni fracciones, flags exigen `bool` exacto y todo escalar físico real debe ser finito. Señales, gaps y desplazamientos booleanos o textuales no se interpretan como números; las señales complejas también se rechazan en vez de descartar su parte imaginaria. `delay_embed` conserva la señal real vacía como una matriz de forma `(0, order)`. Tanto las matrices `X` como los targets `y` de ambos ajustes auditados deben ser reales numéricos y rechazan booleanos —incluidos los mezclados con enteros o reales—, texto y complejos. Los índices ópticos deben ser escalares numéricos finitos y no nulos. Se aceptan escalares integrales, reales y complejos de NumPy sólo donde la API conserva explícitamente esas categorías. La serialización de resultados usa JSON estricto y rechaza `NaN`/`Infinity`; el renderer de macros exige enteros exactos y reales finitos antes de emitir LaTeX.
 
-La suite completa vuelve a ejecutar las 12 parejas y compara los artefactos congelados con sus productores actuales.
+La suite completa vuelve a ejecutar las 12 parejas. Compara exactamente la generación canónica Windows y aplica en otros sistemas el contrato portable estricto documentado arriba; no confunde diferencias de BLAS o codificación PNG con cambios del resultado científico.
 
 ## Archivos principales
 

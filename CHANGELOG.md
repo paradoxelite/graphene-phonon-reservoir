@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1 — 2026-08-15
+
+- Preserved `v1.0.0` and its failed GitHub Actions run `31863134836` as historical evidence instead of rewriting the public tag.
+- Reproduced the Ubuntu failure offline with the same Python and hash-locked Linux wheels: 51 BLAS-derived floats differed by at most `1.65e-12` absolute / `1.38e-11` relative, while both PNGs decoded to exactly the frozen RGBA pixels.
+- Replaced cross-OS byte identity with an explicit portable contract: exact structure/text, `rtol=2e-11` and `atol=2e-12` for floats, and exact decoded pixels; Windows retains full byte-for-byte assertions.
+- Expanded CI to pinned Ubuntu 24.04 and Windows 2025 jobs, with `runner.temp` used only in a step-level environment accepted by Actionlint.
+- Made portable JSON comparison preserve numeric type exactly: a frozen float now requires a built-in float, so equal-valued integers, booleans and NumPy scalar subclasses cannot bypass the Linux attestation.
+- Restricted portable comparison to the closed built-in JSON domain on both sides: exact `dict`/`list` containers, exact `str` keys and no scalar subclasses; all substitutions fail before traversal or tolerance checks.
+- Declared two independent version domains: software release `v1.0.1` and the byte-preserved scientific report artifact `1.0.0`; the patch does not regenerate or relabel the negative-result payload.
+
 ## 1.0.0 — 2026-08-14
 
 - Replaced the unreconciled exploratory tree with a minimal reduced-order simulation.

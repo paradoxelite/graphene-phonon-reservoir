@@ -1,0 +1,744 @@
+{
+  "domain_checks": {
+    "contact_threshold_fraction": 0.05,
+    "minimum_air_gap_fraction_observed": 0.8379951474494113
+  },
+  "protocol": {
+    "bootstrap": {
+      "base_seed": 20260814,
+      "method": "paired resampling of trial means with replacement",
+      "samples": 10000,
+      "summary_seeds": {
+        "narma_nrmse.delay_line": 20260816,
+        "narma_nrmse.linear_mechanics": 20260815,
+        "narma_nrmse.nonlinear": 20260814,
+        "paired_effects.narma_nonlinear_minus_delay": 20260821,
+        "paired_effects.narma_nonlinear_minus_linear": 20260820,
+        "paired_effects.parity_nonlinear_minus_delay": 20260823,
+        "paired_effects.parity_nonlinear_minus_linear": 20260822,
+        "parity_accuracy.delay_line": 20260819,
+        "parity_accuracy.linear_mechanics": 20260818,
+        "parity_accuracy.nonlinear": 20260817
+      }
+    },
+    "chronological_train_fraction": 0.65,
+    "delay_order": 12,
+    "environment": {
+      "matplotlib": "3.11.1",
+      "numpy": "2.4.6",
+      "python": "3.11.9",
+      "scikit_learn": "1.9.0"
+    },
+    "evidence_scope": "reduced-order simulation only; no hardware or experimental validation",
+    "externally_preregistered": false,
+    "frequency_sampling": "independent uniform draw over [f_lo, f_hi]",
+    "id": "graphene-reduced-sim-v1",
+    "length": 1200,
+    "model_config": {
+      "Q": 20.0,
+      "V_ac": 0.15,
+      "V_dc": 1.5,
+      "area": 1.77e-12,
+      "contact_margin_fraction": 0.05,
+      "coupling_fraction": 0.03,
+      "dt": 2.5e-10,
+      "duffing_onset": 5e-09,
+      "f_hi": 40000000.0,
+      "f_lo": 10000000.0,
+      "gap": 2.5e-07,
+      "m_eff": 2e-18,
+      "nonlinear_damping_ratio": 0.2,
+      "oxide": 2.85e-07,
+      "steps_per_input": 8,
+      "wavelength": 6.328e-07
+    },
+    "n_modes": 16,
+    "readout": {
+      "classification": "StandardScaler + RidgeClassifier(alpha=1.0)",
+      "preprocessing": "train-prefix only",
+      "regression": "StandardScaler + Ridge(alpha=0.001)"
+    },
+    "seed_roles": [
+      {
+        "index": 0,
+        "model_seed": 4000,
+        "narma_seed": 5000,
+        "parity_seed": 6000
+      },
+      {
+        "index": 1,
+        "model_seed": 4001,
+        "narma_seed": 5001,
+        "parity_seed": 6001
+      },
+      {
+        "index": 2,
+        "model_seed": 4002,
+        "narma_seed": 5002,
+        "parity_seed": 6002
+      },
+      {
+        "index": 3,
+        "model_seed": 4003,
+        "narma_seed": 5003,
+        "parity_seed": 6003
+      },
+      {
+        "index": 4,
+        "model_seed": 4004,
+        "narma_seed": 5004,
+        "parity_seed": 6004
+      },
+      {
+        "index": 5,
+        "model_seed": 4005,
+        "narma_seed": 5005,
+        "parity_seed": 6005
+      },
+      {
+        "index": 6,
+        "model_seed": 4006,
+        "narma_seed": 5006,
+        "parity_seed": 6006
+      },
+      {
+        "index": 7,
+        "model_seed": 4007,
+        "narma_seed": 5007,
+        "parity_seed": 6007
+      },
+      {
+        "index": 8,
+        "model_seed": 4008,
+        "narma_seed": 5008,
+        "parity_seed": 6008
+      },
+      {
+        "index": 9,
+        "model_seed": 4009,
+        "narma_seed": 5009,
+        "parity_seed": 6009
+      },
+      {
+        "index": 10,
+        "model_seed": 4010,
+        "narma_seed": 5010,
+        "parity_seed": 6010
+      },
+      {
+        "index": 11,
+        "model_seed": 4011,
+        "narma_seed": 5011,
+        "parity_seed": 6011
+      }
+    ],
+    "tasks": {
+      "narma": "NARMA-10; input mapped from [0, 0.5] to [-1, 1]",
+      "parity_order": 3
+    },
+    "trial_count": 12,
+    "washout": 200
+  },
+  "summary": {
+    "narma_nrmse": {
+      "delay_line": {
+        "bootstrap_mean_ci95": [
+          0.481292817139533,
+          0.5208337097994082
+        ],
+        "mean": 0.5024055080399327,
+        "median": 0.5005392138917186,
+        "n": 12,
+        "sample_sd": 0.03620109611826856
+      },
+      "linear_mechanics": {
+        "bootstrap_mean_ci95": [
+          0.9775881035063223,
+          1.0237400695923509
+        ],
+        "mean": 1.0001653058434026,
+        "median": 0.9874929578511737,
+        "n": 12,
+        "sample_sd": 0.04297475437816965
+      },
+      "nonlinear": {
+        "bootstrap_mean_ci95": [
+          1.0117566818283972,
+          1.0554878792368698
+        ],
+        "mean": 1.0328831552341156,
+        "median": 1.0252200506865163,
+        "n": 12,
+        "sample_sd": 0.04085121436130282
+      }
+    },
+    "paired_effects": {
+      "narma_nonlinear_minus_delay": {
+        "bootstrap_mean_ci95": [
+          0.5035858667441445,
+          0.5563385873203898
+        ],
+        "mean": 0.5304776471941831,
+        "median": 0.5404847282220848,
+        "n": 12,
+        "sample_sd": 0.04861281244485202
+      },
+      "narma_nonlinear_minus_linear": {
+        "bootstrap_mean_ci95": [
+          0.017511186574559794,
+          0.04808206801822458
+        ],
+        "mean": 0.03271784939071306,
+        "median": 0.03309158899969228,
+        "n": 12,
+        "sample_sd": 0.027752761672060037
+      },
+      "parity_nonlinear_minus_delay": {
+        "bootstrap_mean_ci95": [
+          -0.021904761904761923,
+          0.012142857142857136
+        ],
+        "mean": -0.004761904761904773,
+        "median": -0.002857142857142836,
+        "n": 12,
+        "sample_sd": 0.0318701757356684
+      },
+      "parity_nonlinear_minus_linear": {
+        "bootstrap_mean_ci95": [
+          -0.013571428571428595,
+          0.005714285714285695
+        ],
+        "mean": -0.0042857142857143,
+        "median": -0.007142857142857173,
+        "n": 12,
+        "sample_sd": 0.018090680674665814
+      }
+    },
+    "parity_accuracy": {
+      "delay_line": {
+        "bootstrap_mean_ci95": [
+          0.49166666666666664,
+          0.5135714285714285
+        ],
+        "mean": 0.501904761904762,
+        "median": 0.4957142857142857,
+        "n": 12,
+        "sample_sd": 0.020178547484949218
+      },
+      "linear_mechanics": {
+        "bootstrap_mean_ci95": [
+          0.4895238095238095,
+          0.5140476190476191
+        ],
+        "mean": 0.5014285714285714,
+        "median": 0.5042857142857142,
+        "n": 12,
+        "sample_sd": 0.02267786838055364
+      },
+      "nonlinear": {
+        "bootstrap_mean_ci95": [
+          0.48190476190476184,
+          0.5133333333333334
+        ],
+        "mean": 0.49714285714285716,
+        "median": 0.4971428571428571,
+        "n": 12,
+        "sample_sd": 0.029162712869216973
+      }
+    }
+  },
+  "trials": [
+    {
+      "contact_events": 0,
+      "index": 0,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8585123022893362,
+        "narma_nonlinear": 0.9561410526071701,
+        "parity_linear": 0.8624730824999438,
+        "parity_nonlinear": 0.9558727781175148
+      },
+      "model_frequencies_hz": [
+        23638341.36776401,
+        37237135.12224568,
+        16702541.0448726,
+        32590306.931675557,
+        16318496.508036885,
+        18593923.669530578,
+        37330986.86972303,
+        12000446.478142994,
+        34299173.26957798,
+        23243404.82552615,
+        10345589.506560884,
+        23014822.62388525,
+        19376764.91116535,
+        34079198.66626811,
+        16666345.672421439,
+        23814422.84249135
+      ],
+      "model_seed": 4000,
+      "narma_nrmse": {
+        "delay_line": 0.5375465716262828,
+        "linear_mechanics": 0.9893706119506395,
+        "nonlinear": 1.0266371636875222
+      },
+      "narma_seed": 5000,
+      "parity_accuracy": {
+        "delay_line": 0.4942857142857143,
+        "linear_mechanics": 0.4828571428571429,
+        "nonlinear": 0.5
+      },
+      "parity_seed": 6000
+    },
+    {
+      "contact_events": 0,
+      "index": 1,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8379951474494113,
+        "narma_nonlinear": 0.9542163754861729,
+        "parity_linear": 0.838229214355274,
+        "parity_nonlinear": 0.9542291507847542
+      },
+      "model_frequencies_hz": [
+        11993402.589274138,
+        26807304.191967476,
+        19758230.25062056,
+        11678485.672021778,
+        10066295.945418568,
+        27607751.1020721,
+        14476894.898949705,
+        12988552.04211237,
+        33068087.338835508,
+        23729542.39170924,
+        38422269.47042584,
+        14460247.976195263,
+        28379585.889030393,
+        13899794.773846798,
+        35214971.98345964,
+        31671159.738561966
+      ],
+      "model_seed": 4001,
+      "narma_nrmse": {
+        "delay_line": 0.5292055615525305,
+        "linear_mechanics": 1.063280555574048,
+        "nonlinear": 1.1066342833579734
+      },
+      "narma_seed": 5001,
+      "parity_accuracy": {
+        "delay_line": 0.52,
+        "linear_mechanics": 0.52,
+        "nonlinear": 0.5142857142857142
+      },
+      "parity_seed": 6001
+    },
+    {
+      "contact_events": 0,
+      "index": 2,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8667230563744242,
+        "narma_nonlinear": 0.9578050643956518,
+        "parity_linear": 0.8657874468906924,
+        "parity_nonlinear": 0.9573095305395012
+      },
+      "model_frequencies_hz": [
+        27745531.57000132,
+        33330131.98717696,
+        13235248.422302581,
+        17406237.722317435,
+        11090816.694365826,
+        16844724.167507112,
+        34213879.420461565,
+        32234701.99694487,
+        28951101.41550359,
+        37693473.478688955,
+        26030212.15720596,
+        22976039.48607009,
+        34746614.815616444,
+        16063932.422036557,
+        20369346.644217733,
+        30596748.626255084
+      ],
+      "model_seed": 4002,
+      "narma_nrmse": {
+        "delay_line": 0.42051249401372015,
+        "linear_mechanics": 0.985615303751708,
+        "nonlinear": 1.0157423050562522
+      },
+      "narma_seed": 5002,
+      "parity_accuracy": {
+        "delay_line": 0.4742857142857143,
+        "linear_mechanics": 0.4714285714285714,
+        "nonlinear": 0.46285714285714286
+      },
+      "parity_seed": 6002
+    },
+    {
+      "contact_events": 0,
+      "index": 3,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8911418305685034,
+        "narma_nonlinear": 0.959253527606976,
+        "parity_linear": 0.8913594459048074,
+        "parity_nonlinear": 0.9597907388836847
+      },
+      "model_frequencies_hz": [
+        13077413.745666884,
+        16049389.454979457,
+        14284114.901374087,
+        25951055.494157102,
+        26639684.760456085,
+        24360586.533022046,
+        37945277.168067396,
+        23768445.24150668,
+        37100744.9828101,
+        16720163.969310753,
+        29451926.58595999,
+        26308756.33125671,
+        29863219.004102614,
+        11529070.490336124,
+        37557776.62569899,
+        21843916.701863453
+      ],
+      "model_seed": 4003,
+      "narma_nrmse": {
+        "delay_line": 0.5467907783833509,
+        "linear_mechanics": 0.9769419139870412,
+        "nonlinear": 0.9907331529306564
+      },
+      "narma_seed": 5003,
+      "parity_accuracy": {
+        "delay_line": 0.5028571428571429,
+        "linear_mechanics": 0.5485714285714286,
+        "nonlinear": 0.5514285714285714
+      },
+      "parity_seed": 6003
+    },
+    {
+      "contact_events": 0,
+      "index": 4,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8941086317556941,
+        "narma_nonlinear": 0.9594052966612657,
+        "parity_linear": 0.88989499836337,
+        "parity_nonlinear": 0.9602454605579542
+      },
+      "model_frequencies_hz": [
+        34100032.90119275,
+        31243742.111460254,
+        29356413.39288741,
+        14750666.474653881,
+        13725308.252674151,
+        24209613.89732688,
+        38482112.860911414,
+        37582804.97401576,
+        30153401.87831506,
+        39817148.33967451,
+        21327922.082125068,
+        34490908.811341494,
+        33743855.22872122,
+        29471415.791464593,
+        11487490.470037473,
+        18155727.772226002
+      ],
+      "model_seed": 4004,
+      "narma_nrmse": {
+        "delay_line": 0.5033382640346911,
+        "linear_mechanics": 0.9397082653186133,
+        "nonlinear": 0.9847531512762546
+      },
+      "narma_seed": 5004,
+      "parity_accuracy": {
+        "delay_line": 0.48857142857142855,
+        "linear_mechanics": 0.5,
+        "nonlinear": 0.4857142857142857
+      },
+      "parity_seed": 6004
+    },
+    {
+      "contact_events": 0,
+      "index": 5,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.9101382896456526,
+        "narma_nonlinear": 0.9638025951025683,
+        "parity_linear": 0.9067497095301941,
+        "parity_nonlinear": 0.9624714065120759
+      },
+      "model_frequencies_hz": [
+        37830151.58654487,
+        19079392.8250354,
+        29190486.3596603,
+        32159303.29730396,
+        34290837.35988295,
+        19907883.148190178,
+        14210622.546696447,
+        34215356.25204189,
+        37114881.25412467,
+        13072736.849390518,
+        20133512.243834928,
+        28789538.507227406,
+        16639476.167606782,
+        17923371.57135704,
+        32622248.431497034,
+        39864177.62341198
+      ],
+      "model_seed": 4005,
+      "narma_nrmse": {
+        "delay_line": 0.5003450284286269,
+        "linear_mechanics": 0.9719174135009093,
+        "nonlinear": 0.9918782854610266
+      },
+      "narma_seed": 5005,
+      "parity_accuracy": {
+        "delay_line": 0.49714285714285716,
+        "linear_mechanics": 0.4828571428571429,
+        "nonlinear": 0.5028571428571429
+      },
+      "parity_seed": 6005
+    },
+    {
+      "contact_events": 0,
+      "index": 6,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8732377060876042,
+        "narma_nonlinear": 0.9583313267468909,
+        "parity_linear": 0.8768115361791454,
+        "parity_nonlinear": 0.958752783110841
+      },
+      "model_frequencies_hz": [
+        23629445.39755306,
+        30382809.82705762,
+        22691535.88601187,
+        17694103.606584888,
+        38235429.95563024,
+        19347232.10535744,
+        18970898.930612065,
+        11198123.064865079,
+        33264493.57243327,
+        19079129.60784647,
+        18897676.39378062,
+        36714215.29819894,
+        20214268.716217503,
+        26900836.51377085,
+        26967532.791232362,
+        31701373.312232707
+      ],
+      "model_seed": 4006,
+      "narma_nrmse": {
+        "delay_line": 0.4884702642997938,
+        "linear_mechanics": 0.9925644095586043,
+        "nonlinear": 1.0789524258302732
+      },
+      "narma_seed": 5006,
+      "parity_accuracy": {
+        "delay_line": 0.5228571428571429,
+        "linear_mechanics": 0.49142857142857144,
+        "nonlinear": 0.4714285714285714
+      },
+      "parity_seed": 6006
+    },
+    {
+      "contact_events": 0,
+      "index": 7,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8599090696401326,
+        "narma_nonlinear": 0.9564550496801477,
+        "parity_linear": 0.8607706368549864,
+        "parity_nonlinear": 0.9556530458587112
+      },
+      "model_frequencies_hz": [
+        23141689.15633806,
+        34590303.618330315,
+        37534614.103657946,
+        13480553.120263258,
+        15705231.501934344,
+        17747186.32324683,
+        26275909.6386147,
+        22444956.890200716,
+        33527782.012336716,
+        11507930.5046563,
+        14820735.476638393,
+        10656698.907653918,
+        34120467.40422718,
+        25552904.02142681,
+        32297215.42465601,
+        16059918.832594639
+      ],
+      "model_seed": 4007,
+      "narma_nrmse": {
+        "delay_line": 0.5007333993548103,
+        "linear_mechanics": 0.9734145813201172,
+        "nonlinear": 0.9993358821253409
+      },
+      "narma_seed": 5007,
+      "parity_accuracy": {
+        "delay_line": 0.4942857142857143,
+        "linear_mechanics": 0.5114285714285715,
+        "nonlinear": 0.5371428571428571
+      },
+      "parity_seed": 6007
+    },
+    {
+      "contact_events": 0,
+      "index": 8,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.9149151617671331,
+        "narma_nonlinear": 0.9638205684856775,
+        "parity_linear": 0.9153021928505376,
+        "parity_nonlinear": 0.9639240989682198
+      },
+      "model_frequencies_hz": [
+        19791687.586920753,
+        28737846.260095444,
+        29442886.758959096,
+        28764950.178900376,
+        32164063.42360053,
+        12993523.93827048,
+        36920070.24932875,
+        36996000.716774985,
+        30653641.424985148,
+        33570859.309869334,
+        25917910.383990057,
+        22745858.248209454,
+        32754497.649657514,
+        18315329.81738247,
+        38947280.902372666,
+        18435609.583590843
+      ],
+      "model_seed": 4008,
+      "narma_nrmse": {
+        "delay_line": 0.4745697176837458,
+        "linear_mechanics": 1.0492125745995111,
+        "nonlinear": 1.0394029613594058
+      },
+      "narma_seed": 5008,
+      "parity_accuracy": {
+        "delay_line": 0.5057142857142857,
+        "linear_mechanics": 0.4714285714285714,
+        "nonlinear": 0.4514285714285714
+      },
+      "parity_seed": 6008
+    },
+    {
+      "contact_events": 0,
+      "index": 9,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.860545137654663,
+        "narma_nonlinear": 0.9569032139561249,
+        "parity_linear": 0.8585821658210033,
+        "parity_nonlinear": 0.957012729056243
+      },
+      "model_frequencies_hz": [
+        20454958.48247099,
+        21773731.318611115,
+        11363042.642487794,
+        23742387.29581786,
+        31039908.48770693,
+        30167768.627423495,
+        16985151.359794248,
+        34240681.83332054,
+        10773778.903870866,
+        13923255.415549608,
+        23477783.525285117,
+        11062586.39407274,
+        34528283.20048588,
+        12862425.422466327,
+        13378421.017842676,
+        23207121.71143602
+      ],
+      "model_seed": 4009,
+      "narma_nrmse": {
+        "delay_line": 0.4819531750121286,
+        "linear_mechanics": 0.9533876875465608,
+        "nonlinear": 1.0238029376855105
+      },
+      "narma_seed": 5009,
+      "parity_accuracy": {
+        "delay_line": 0.4857142857142857,
+        "linear_mechanics": 0.5114285714285715,
+        "nonlinear": 0.4828571428571429
+      },
+      "parity_seed": 6009
+    },
+    {
+      "contact_events": 0,
+      "index": 10,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.9144663401185226,
+        "narma_nonlinear": 0.9640618313854703,
+        "parity_linear": 0.9147763225965693,
+        "parity_nonlinear": 0.9641193487602451
+      },
+      "model_frequencies_hz": [
+        15678220.07299763,
+        17680368.7407986,
+        32413095.16693924,
+        34451299.829198,
+        13132015.181293683,
+        32380359.681330588,
+        18904950.309229873,
+        39022156.954376355,
+        27033134.444980286,
+        37748468.89643562,
+        20561105.63767878,
+        25698495.287907533,
+        19089248.209115088,
+        19870042.764214523,
+        27732511.40997525,
+        33303827.913193397
+      ],
+      "model_seed": 4010,
+      "narma_nrmse": {
+        "delay_line": 0.5506920185294005,
+        "linear_mechanics": 1.053755535605348,
+        "nonlinear": 1.0898117123001885
+      },
+      "narma_seed": 5010,
+      "parity_accuracy": {
+        "delay_line": 0.48857142857142855,
+        "linear_mechanics": 0.5171428571428571,
+        "nonlinear": 0.4942857142857143
+      },
+      "parity_seed": 6010
+    },
+    {
+      "contact_events": 0,
+      "index": 11,
+      "minimum_air_gap_fraction": {
+        "narma_linear": 0.8822312356773584,
+        "narma_nonlinear": 0.9570257525272424,
+        "parity_linear": 0.8815357172543097,
+        "parity_nonlinear": 0.9568965033506014
+      },
+      "model_frequencies_hz": [
+        10551994.832758164,
+        35654620.45559975,
+        24845833.516879264,
+        29924622.327905543,
+        31550138.72943413,
+        17222408.555830076,
+        18359041.70247557,
+        37452681.96888801,
+        28201901.0049492,
+        22115560.581481818,
+        34310518.57048254,
+        39170776.59018252,
+        17656080.607807197,
+        24556603.161881626,
+        30382220.786603037,
+        37473898.3098661
+      ],
+      "model_seed": 4011,
+      "narma_nrmse": {
+        "delay_line": 0.49470882356010976,
+        "linear_mechanics": 1.052814817407731,
+        "nonlinear": 1.0469136017389842
+      },
+      "narma_seed": 5011,
+      "parity_accuracy": {
+        "delay_line": 0.5485714285714286,
+        "linear_mechanics": 0.5085714285714286,
+        "nonlinear": 0.5114285714285715
+      },
+      "parity_seed": 6011
+    }
+  ]
+}

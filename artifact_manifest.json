@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "figures/paired_narma.png": {
+      "sha256": "40a7895f30c2d5eed2453b01d3758bb50942e37fe8d0451d7e6e1d52174ab766",
+      "size": 58612
+    },
+    "figures/paired_parity.png": {
+      "sha256": "a9ed5342e423505f807cf5d09b3c4ed1994deeea43b1a496a3dd43ed48a9e8f8",
+      "size": 87714
+    },
+    "paper/main.pdf": {
+      "sha256": "904b0d1bf822283e2f5b28949e9eec5289299e4d1855fa5ab6f4ff4ea2c20021",
+      "size": 405697
+    },
+    "paper/results_macros.tex": {
+      "sha256": "3e9dc91cdfa7a0695fd530919bcb37dd16ebdf7d425e28a03101d687b8fb7d0b",
+      "size": 991
+    },
+    "results.json": {
+      "sha256": "eca2362f3947d68455d46e9d8c11ff098510ca9c64a990093f97a2ed54c63fb7",
+      "size": 20539
+    }
+  },
+  "schema_version": 1
+}

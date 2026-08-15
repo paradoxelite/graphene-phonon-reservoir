@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Si utiliza este repositorio, cite el software y el informe técnico incluido."
+title: "Graphene Phonon Reservoir: reproducible negative result in reduced-order simulation"
+type: software
+authors:
+  - family-names: "Gómez Coeto"
+    given-names: "José Rodolfo"
+repository-code: "https://github.com/paradoxelite/graphene-phonon-reservoir"
+url: "https://github.com/paradoxelite/graphene-phonon-reservoir"
+version: 1.0.0
+date-released: 2026-08-14
+abstract: >-
+  Reduced-order, contact-aware simulation of coupled graphene-inspired modes.
+  A fixed paired protocol over twelve seeds found no computational advantage
+  over a mechanically linear ablation or a digital delay-line baseline.
+keywords:
+  - physical reservoir computing
+  - graphene resonator
+  - negative result
+  - reproducible simulation

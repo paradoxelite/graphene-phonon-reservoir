@@ -236,13 +236,13 @@ def test_release_and_frozen_report_versions_are_explicitly_distinct():
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     report_source = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
 
-    assert version == "1.0.1"
+    assert version == "1.0.2"
     assert r"\date{Versión 1.0.0" in report_source
     for document in (readme, model_card):
-        assert "versión del software: `1.0.1`" in document
+        assert "versión del software: `1.0.2`" in document
         assert "versión del informe científico congelado: `1.0.0`" in document
         assert "se conserva byte a byte" in document
-    assert "software v1.0.1" in citation
+    assert "software v1.0.2" in citation
     assert "informe técnico congelado v1.0.0" in citation
 
 
@@ -253,5 +253,5 @@ def test_citation_metadata_matches_version_and_scope():
     assert "cff-version: 1.2.0" in citation
     assert f"version: {version}" in citation
     assert "negative result" in citation
-    assert "date-released: 2026-08-15" in citation
+    assert "date-released: 2026-08-16" in citation
     assert "license:" not in citation

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2 — 2026-08-16
+
+- Replaced the repository-facing README with public documentation centered on purpose, installation, execution, outputs, compatibility, testing and limitations.
+- Clarified the exact paired protocol, the scope of the mechanical ablation, the interpretation of the reported metrics and the negative result.
+- Distinguished the software release `1.0.2` from the byte-preserved scientific report and result set `1.0.0`.
+- Kept the simulation implementation, report, results, figures and artifact manifest unchanged; this patch updates documentation, release metadata and their consistency tests.
+
 ## 1.0.1 — 2026-08-15
 
 - Preserved `v1.0.0` and its failed GitHub Actions run `31863134836` as historical evidence instead of rewriting the public tag.

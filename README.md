@@ -1,56 +1,93 @@
 # Graphene Phonon Reservoir
 
-## Resultado negativo reproducible en simulación reducida
+Repositorio de investigación reproducible para estudiar un reservorio físico basado en un modelo reducido de modos mecánicos acoplados inspirados en resonadores de grafeno. El proyecto pone a prueba una pregunta concreta: **¿la dinámica mecánica no lineal mejora el procesamiento temporal frente a controles más simples?**
 
-Este repositorio evalúa un modelo reducido de modos mecánicos acoplados inspirado en resonadores de grafeno. **No es un dispositivo construido, una validación experimental ni un gemelo digital de una geometría fabricada.**
+Bajo el protocolo y el presupuesto computacional evaluados, la respuesta fue negativa. El modelo no lineal no superó una ablación mecánica lineal ni una línea de retardo digital. El repositorio conserva ese resultado con el código, las semillas, los datos, las figuras y el informe necesarios para reproducirlo.
 
-## Identidad de versión
+![Comparación pareada en NARMA-10](figures/paired_narma.png)
 
-Esta publicación conserva dos dominios de versión intencionalmente independientes:
+## Qué es y para qué sirve
 
-- versión del software: `1.0.1`; identifica el repositorio, `VERSION`, `CITATION.cff`, esta documentación y la corrección del contrato de CI multiplataforma;
-- versión del informe científico congelado: `1.0.0`; identifica `paper/main.tex`, `paper/main.pdf` y la generación científica publicada originalmente con `v1.0.0`.
+En *physical reservoir computing*, una señal de entrada excita un sistema dinámico y un readout sencillo aprende a interpretar su respuesta. En el protocolo publicado, ese sistema es una simulación de 16 modos mecánicos efectivos con acoplamiento, electrostática dependiente del hueco, no linealidad y lectura óptica.
 
-El informe científico se conserva byte a byte junto con los demás payloads congelados en la versión de software 1.0.1: no se regenera ni se reinterpreta para corregir CI. Por ello el rótulo «Versión 1.0.0» de la primera página es la identidad histórica del informe, no la versión del software que lo distribuye. Al citar, use software `v1.0.1` para el repositorio y versión `1.0.0` para el informe incluido.
+El repositorio sirve para:
 
-La comprobación canónica usa 12 pares de semillas y no encontró ventaja computacional del modelo no lineal bajo el protocolo congelado:
+- reproducir un resultado negativo bien delimitado;
+- comparar los términos mecánicos de Duffing y amortiguamiento no lineal con una ablación pareada que conserva semillas, electrostática, lectura óptica y los demás parámetros;
+- estudiar una cadena completa de simulación, lectura, entrenamiento y evaluación con separación cronológica entre entrenamiento y prueba;
+- usar el protocolo como ejemplo docente de falsificación temprana y reporte honesto en computación física.
+
+No es un diseño de dispositivo ni una herramienta de fabricación. Los parámetros representan un punto de simulación ilustrativo y no una geometría caracterizada experimentalmente.
+
+## Diseño del estudio
+
+```text
+señal sintética
+      │
+      ▼
+16 modos mecánicos acoplados
+      │
+      ├── con Duffing y amortiguamiento no lineal
+      └── ablación pareada sin esos dos términos
+      │
+      ▼
+lectura óptica por matriz de transferencia
+      │
+      ▼
+readout lineal entrenado sólo con el prefijo cronológico
+      │
+      ▼
+NARMA-10 o paridad-3
+
+Referencia adicional: línea de retardo digital
+```
+
+Cada tarea usa 1200 símbolos, descarta un *washout* de 200 y aplica una división cronológica 65/35. Las tres condiciones se evalúan con 12 pares de semillas explícitos. Las dos condiciones mecánicas comparten heterogeneidad, electrostática, acoplamiento y lectura óptica; la ablación elimina únicamente la rigidez cúbica de Duffing y el amortiguamiento no lineal. El escalado y el readout se ajustan sólo con la parte de entrenamiento de cada secuencia.
+
+El estado interno contiene desplazamientos y velocidades, pero el readout recibe cambios de reflectancia óptica: una característica por modo. La línea de retardo digital tiene orden 12 y es una referencia separada, no una ablación pareada ni una comparación de igual presupuesto.
+
+### Componentes físicos representados
+
+- modos efectivos entre 10 y 40 MHz;
+- amortiguamiento efectivo con `Q = 20`;
+- acoplamiento entre modos;
+- fuerza electrostática dependiente del hueco y del voltaje;
+- términos de Duffing y amortiguamiento no lineal;
+- detección explícita de contacto;
+- lectura de reflectancia mediante una matriz de transferencia óptica.
+
+Las ecuaciones, unidades y supuestos están documentados en [`MATEMATICAS.md`](MATEMATICAS.md).
+
+## Resultado principal
 
 | Tarea | Modelo no lineal | Ablación mecánica lineal | Línea de retardo digital |
 |---|---:|---:|---:|
 | NARMA-10, NRMSE ↓ | 1.033 | 1.000 | 0.502 |
 | Paridad-3, exactitud ↑ | 0.497 | 0.501 | 0.502 |
 
-En NARMA-10, la diferencia pareada no lineal menos lineal fue **+0.033** (IC bootstrap 95 % de la media: **[+0.018, +0.048]**): en esta configuración, la no linealidad empeoró el resultado. En paridad-3, todos los métodos quedaron cerca del azar y el intervalo de la diferencia no lineal menos lineal cruzó cero. Estos datos no justifican afirmar ventaja de reservorio, superioridad del grafeno ni viabilidad de hardware.
+En NARMA-10, la diferencia pareada entre el modelo con esos términos no lineales y la ablación fue **+0.033** en NRMSE, con un intervalo percentil bootstrap del 95 % de **[+0.018, +0.048]**. Es un resumen descriptivo de los 12 trials, no incertidumbre sobre una población de dispositivos físicos. Como un NRMSE menor es mejor, activar Duffing y amortiguamiento no lineal empeoró el resultado en esta configuración.
 
-## Qué sí contiene
+En paridad-3, las medias quedaron entre 0.497 y 0.502, cerca de 0.5; no se realizó una prueba formal contra azar. El intervalo de la diferencia entre las condiciones mecánicas cruzó cero. El experimento no aporta evidencia de ventaja computacional, superioridad del grafeno ni viabilidad de hardware.
 
-- Ecuación reducida en SI para un anillo de modos mecánicos acoplados.
-- Fuerza electrostática dependiente del hueco y del voltaje total.
-- Dominio de contacto que falla de forma explícita; no se recorta la trayectoria.
-- Lectura óptica por matriz de transferencia con **un solo hueco nominal autorizado**, convención pasiva `n+iκ` y prueba cruzada por recursión de Fresnel.
-- Ablación mecánica lineal pareada con las mismas frecuencias, máscara, amortiguamiento, acoplamiento, electrostática y lectura.
-- Línea de retardo digital como referencia separada.
-- Separación cronológica; escalado y readout ajustados sólo con el prefijo de entrenamiento.
-- 12 pares de semillas explícitos, frecuencias realizadas serializadas por trial, 10 000 remuestras bootstrap y las diez subsemillas efectivas registradas.
-- Pruebas de límites ópticos, contacto, disipación, refinamiento temporal, semillas y ausencia de *leakage*. En el entorno Windows canónico, JSON y PNG se reproducen byte a byte; en Linux se exige estructura/texto exactos, equivalencia numérica estrecha y píxeles RGBA exactos.
-- Margen de dominio registrado: el hueco mínimo entre 48 trayectorias fue **0.838 g**, lejos del límite de contacto **0.05 g**.
+Los valores completos, intervalos y metadatos del protocolo están en [`results.json`](results.json). La interpretación científica y los usos permitidos se resumen en [`MODEL_CARD.md`](MODEL_CARD.md).
 
-## Qué no demuestra
+## Instalación y reproducción
 
-- No hay fabricación, medición, HIL, MCU, cuantización int8 ni electrónica de lectura.
-- No se estima rendimiento energético, RF, arco eléctrico, dígitos, capacidad universal ni costo por oblea.
-- El parámetro `Q=20` es un amortiguamiento efectivo; no se traduce a gas o presión.
-- El modelo es reducido y no resuelve una membrana 2D ni una curva de *pull-in* validada.
-- Las constantes ópticas y mecánicas son un punto de simulación ilustrativo, no una ficha de proceso.
-- El protocolo no fue preregistrado externamente.
+El entorno de referencia usa **Python 3.11.9**. Las dependencias de ejecución están fijadas con hashes en `requirements-lock.txt`; la suite de pruebas usa `requirements-dev-lock.txt`.
 
-## Reproducción
+Si ya tiene un entorno Python 3.11.9 activado y `pdflatex` disponible, la reconstrucción completa es:
 
-Entorno canónico: Python 3.11.9. Desde una exportación limpia, cree un entorno
-**nuevo y externo**: ni el venv ni sus cachés pueden vivir dentro del árbol
-publicable.
+```console
+python -m pip install --require-hashes -r requirements-lock.txt
+python -B reproduce.py --compile-report
+```
 
-### Windows PowerShell
+`reproduce.py` es la única entrada para regenerar resultados y figuras; `--compile-report` añade el PDF y el manifiesto completo de cinco artefactos. Para ejecutar también la suite sin dejar cachés en el checkout, use una de las recetas controladas siguientes, que instala `requirements-dev-lock.txt` y redirige las cachés fuera del repositorio.
+
+Los siguientes comandos crean el entorno, el bytecode, la configuración de Matplotlib y la caché de pip en un directorio temporal. Ejecútelos desde la raíz de una copia limpia o desechable, porque la regeneración reemplaza los artefactos incluidos en el repositorio.
+
+<details>
+<summary>Windows PowerShell</summary>
 
 ```powershell
 $ErrorActionPreference = 'Stop'
@@ -69,6 +106,7 @@ if ($LASTEXITCODE -ne 0 -or $DetectedPython -ne '3.11.9') {
     throw 'Se requiere exactamente Python 3.11.9'
 }
 $RunRoot = Join-Path $env:TEMP ("graphene-repro-" + [guid]::NewGuid())
+$env:PIP_CACHE_DIR = Join-Path $RunRoot 'pip-cache'
 $Venv = Join-Path $RunRoot 'venv'
 $VenvPython = Join-Path $Venv 'Scripts\python.exe'
 & $BasePython -m venv $Venv
@@ -83,10 +121,13 @@ if ($LASTEXITCODE -ne 0) { throw 'Falló la instalación hashada' }
 & $VenvPython -m pytest -q -p no:cacheprovider
 if ($LASTEXITCODE -ne 0) { throw 'Falló la suite' }
 & $VenvPython reproduce.py --compile-report
-if ($LASTEXITCODE -ne 0) { throw 'Falló el productor canónico' }
+if ($LASTEXITCODE -ne 0) { throw 'Falló la reproducción' }
 ```
 
-### Linux/macOS
+</details>
+
+<details>
+<summary>Ubuntu 24.04 (Linux, verificado)</summary>
 
 ```bash
 set -euo pipefail
@@ -101,6 +142,7 @@ export PYTHONNOUSERSITE=1
 BASE_PYTHON="${PYTHON3119:-python3.11}"
 test "$("$BASE_PYTHON" -c 'import platform; print(platform.python_version())')" = '3.11.9'
 RUN_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/graphene-repro.XXXXXX")"
+export PIP_CACHE_DIR="$RUN_ROOT/pip-cache"
 VENV="$RUN_ROOT/venv"
 "$BASE_PYTHON" -m venv "$VENV"
 export PYTHONDONTWRITEBYTECODE=1
@@ -113,46 +155,71 @@ export MPLCONFIGDIR="$RUN_ROOT/mpl"
 "$VENV/bin/python" reproduce.py --compile-report
 ```
 
-Ambas recetas eliminan primero todas las variables heredadas `PIP_*` y anulan los archivos de configuración efectivos de pip (`NUL` o `/dev/null`). Así, `--use-feature=truststore` conserva verificación TLS sin heredar `trusted-host`; `--require-hashes` verifica además cada distribución instalada.
+</details>
 
-Los artefactos congelados de esta versión usan Windows x86-64 como plataforma canónica de bytes. Con las mismas versiones bloqueadas, Ubuntu 24.04 conserva todas las claves y textos; 51 floats derivados de BLAS difieren como máximo `1.65e-12` en valor absoluto y `1.38e-11` en valor relativo. Los PNG decodifican a dimensiones y píxeles RGBA idénticos aunque su codificación binaria difiera. La suite falla si se exceden `rtol=2e-11` o `atol=2e-12`, si cambia cualquier campo no flotante o cualquier píxel, y conserva la comparación byte a byte completa en Windows. Esto es portabilidad numérica/visual medida, no identidad binaria entre sistemas operativos.
+Omitir `--compile-report` es un modo exploratorio parcial: regenera resultados y figuras, pero deja fuera el PDF y produce un manifiesto de cuatro artefactos. No equivale a verificar el paquete congelado de cinco artefactos; úselo en una copia desechable.
 
-`reproduce.py` es la entrada única para regenerar:
+## Artefactos generados
 
-- `results.json`;
-- `figures/paired_narma.png`;
-- `figures/paired_parity.png`;
-- `paper/results_macros.tex`;
-- opcionalmente `paper/main.pdf`;
-- `artifact_manifest.json`, publicado al final con tamaño y SHA-256 de cada payload.
+Una ejecución de `reproduce.py` produce o actualiza:
 
-Los productores trabajan primero fuera del árbol publicado. Bajo un lock de OS se escribe y sincroniza un journal durable **antes del primer respaldo**, se toman copias inmutables y se instalan los cinco payloads con `os.replace`; `artifact_manifest.json` se mueve al final como marcador de confianza. Si el proceso termina abruptamente, la siguiente invocación detecta el journal bajo el mismo lock y restaura de forma idempotente la generación anterior antes de generar nada nuevo. La publicación rechaza symlinks, junctions y otros reparse points en cada componente del root, destinos, lock, backups y recovery. Las pruebas matan procesos reales después de cada backup y de cada movimiento público, fuerzan fallos moved-then-raised, rollback y unlock, y exigen cleanup explícito.
+- `results.json`: protocolo, semillas, métricas e intervalos;
+- `figures/paired_narma.png`: comparación pareada de NARMA-10;
+- `figures/paired_parity.png`: comparación pareada de paridad-3;
+- `paper/results_macros.tex`: valores usados por el informe;
+- `paper/main.pdf`: informe técnico, si se usa `--compile-report`;
+- `artifact_manifest.json`: tamaño y SHA-256 de cada artefacto publicado.
 
-Las lecturas que deciden confianza no usan `Path.read_bytes()`: capturan primero la identidad física `lstat` de todos los componentes, abren una vez un descriptor, exigen que éste y la ruta sigan ligados al snapshot pre-open, calculan SHA-256 por bloques de 64 KiB y vuelven a comparar componentes, tipo, tamaño y timestamps antes de aceptar. Los límites físicos son 4 MiB para resultados, 8 MiB por figura, 256 KiB para macros, 32 MiB para PDF, 16 KiB para el manifiesto y 64 KiB para el journal. Crecimiento, sustitución antes de `open`, sustitución durante la lectura o exceso de límite fallan cerrado; las regresiones incluyen reemplazos con bytes y tamaño idénticos para demostrar que el hash no sustituye la identidad física.
+`artifact_manifest.json` permite comprobar tamaño y SHA-256 de los artefactos incluidos. La suite también verifica límites de contacto, disipación, una comprobación temporal local entre pasos de 0.5 y 0.25 ns, semillas, separación cronológica y consistencia entre resultados, figuras e informe.
 
-Las APIs numéricas preservan procedencia mediante una sola instantánea por entrada: validan sus escalares originales y convierten esa misma instantánea, sin volver a leer proveedores array-like stateful. Enteros no aceptan booleanos ni fracciones, flags exigen `bool` exacto y todo escalar físico real debe ser finito. Señales, gaps y desplazamientos booleanos o textuales no se interpretan como números; las señales complejas también se rechazan en vez de descartar su parte imaginaria. `delay_embed` conserva la señal real vacía como una matriz de forma `(0, order)`. Tanto las matrices `X` como los targets `y` de ambos ajustes auditados deben ser reales numéricos y rechazan booleanos —incluidos los mezclados con enteros o reales—, texto y complejos. Los índices ópticos deben ser escalares numéricos finitos y no nulos. Se aceptan escalares integrales, reales y complejos de NumPy sólo donde la API conserva explícitamente esas categorías. La serialización de resultados usa JSON estricto y rechaza `NaN`/`Infinity`; el renderer de macros exige enteros exactos y reales finitos antes de emitir LaTeX.
+## Compatibilidad y reproducibilidad
 
-La suite completa vuelve a ejecutar las 12 parejas. Compara exactamente la generación canónica Windows y aplica en otros sistemas el contrato portable estricto documentado arriba; no confunde diferencias de BLAS o codificación PNG con cambios del resultado científico.
+- Entorno de referencia: Python 3.11.9.
+- CI: Ubuntu 24.04 y Windows 2025.
+- Windows conserva identidad byte a byte de JSON y PNG.
+- Ubuntu 24.04 conserva estructura y texto exactos, valores flotantes dentro de `rtol=2e-11` y `atol=2e-12`, y píxeles RGBA exactos.
+- Otros sistemas POSIX, incluido macOS, no forman parte de la matriz verificada.
 
-## Archivos principales
+En la reproducción observada sobre Ubuntu, 51 valores derivados de BLAS variaron como máximo `1.65e-12` en valor absoluto y `1.38e-11` en valor relativo. Los píxeles fueron idénticos aunque la codificación binaria de los PNG cambió. El contrato distingue estas diferencias de plataforma de un cambio en el resultado científico.
 
-- `physical_model.py`: física reducida, electrostática, contacto y TMM.
-- `study.py`: protocolo, readouts, estadísticas y figuras.
-- `tasks.py`: señales sintéticas NARMA-10 y paridad.
-- `MATEMATICAS.md`: ecuaciones, unidades y dominio de validez.
-- `MODEL_CARD.md`: uso permitido y límites.
-- `AUDIT_RESOLUTION.md`: resolución de los 17 bloqueos originales y de revisiones adversariales posteriores.
-- `SOURCE_VERIFICATION.md`: DOI, títulos y alcance de las fuentes comprobadas.
-- `paper/main.pdf`: informe técnico derivado del JSON canónico.
+## Estructura del repositorio
 
-## Referencias de contexto
+| Ruta | Función |
+|---|---|
+| `physical_model.py` | dinámica mecánica, electrostática, contacto y lectura óptica |
+| `tasks.py` | generación de NARMA-10 y paridad-3 |
+| `study.py` | protocolo pareado, readouts, métricas y figuras |
+| `reproduce.py` | regeneración de artefactos y del informe |
+| `tests/` | pruebas físicas, estadísticas, de portabilidad e integridad |
+| `MATEMATICAS.md` | ecuaciones, unidades y dominio de validez |
+| `MODEL_CARD.md` | uso previsto, evaluación y limitaciones |
+| `SOURCE_VERIFICATION.md` | fuentes bibliográficas verificadas |
+| `paper/main.pdf` | informe científico incluido |
 
-- Tanaka et al., *Recent advances in physical reservoir computing: A review*, 2019. https://doi.org/10.1016/j.neunet.2019.03.005
-- Bunch et al., *Electromechanical Resonators from Graphene Sheets*, 2007. https://doi.org/10.1126/science.1136836
-- Eichler et al., *Nonlinear damping in mechanical resonators made from carbon nanotubes and graphene*, 2011. https://doi.org/10.1038/nnano.2011.71
-- Dion et al., *Reservoir computing with a single delay-coupled non-linear mechanical oscillator*, 2018. https://doi.org/10.1063/1.5038038
-- Aguila et al., *Fabry–Perot interferometric calibration of van der Waals material-based nanomechanical resonators*, 2022. https://doi.org/10.1039/D1NA00794G
+## Limitaciones
+
+- Es un modelo reducido; no resuelve una membrana 2D ni sustituye FEM.
+- No representa fonones atomísticos ni una simulación de dinámica molecular.
+- El dominio numérico exige `0.05g < gap ≤ 1.5g`; estos límites no constituyen una curva de *pull-in* validada.
+- No existe un dispositivo construido, una fabricación propuesta o una geometría validada.
+- No hay mediciones, validación experimental, HIL ni electrónica de lectura.
+- `Q = 20` es un parámetro efectivo y no se traduce a presión de gas.
+- Los parámetros ópticos y mecánicos no forman una ficha de proceso.
+- El protocolo no fue preregistrado externamente.
+- No se evaluaron potencia, costo, rendimiento de oblea, RF, cuantización ni ventaja computacional fuera de las dos tareas incluidas.
+
+## Versiones
+
+La **versión del software: `1.0.2`** identifica el repositorio, el código y esta documentación. La **versión del informe científico congelado: `1.0.0`** identifica `paper/main.tex` y `paper/main.pdf`.
+
+El informe científico **se conserva byte a byte** dentro de la versión 1.0.2, al igual que los datos publicados originalmente. Por eso la portada del PDF dice “Versión 1.0.0”; no es un error de la versión del repositorio. Para citar el software use `v1.0.2`, y para referirse al informe incluido use `1.0.0`. El historial de cambios está en [`CHANGELOG.md`](CHANGELOG.md).
+
+## Cita
+
+Los metadatos de autoría y versión están en [`CITATION.cff`](CITATION.cff). GitHub puede generar una cita directamente desde ese archivo.
+
+Autor: **José Rodolfo Gómez Coeto** — [paradoxelite](https://github.com/paradoxelite)
 
 ## Licencia
 
-No se concede una licencia abierta global. Consulte al autor antes de reutilizar código o documentación. Las referencias bibliográficas no implican incorporación de código de terceros.
+No se concede una licencia abierta general. Consulte al autor antes de reutilizar código, datos o documentación. Las referencias bibliográficas no implican incorporación de código de terceros.

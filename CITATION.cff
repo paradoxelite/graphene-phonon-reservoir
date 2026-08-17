@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Cite el software v1.0.1; el informe técnico congelado v1.0.0 incluido conserva el payload científico original."
+message: "Cite el software v1.0.2; el informe técnico congelado v1.0.0 incluido conserva el conjunto científico original."
 title: "Graphene Phonon Reservoir: reproducible negative result in reduced-order simulation"
 type: software
 authors:
@@ -7,8 +7,8 @@ authors:
     given-names: "José Rodolfo"
 repository-code: "https://github.com/paradoxelite/graphene-phonon-reservoir"
 url: "https://github.com/paradoxelite/graphene-phonon-reservoir"
-version: 1.0.1
-date-released: 2026-08-15
+version: 1.0.2
+date-released: 2026-08-16
 abstract: >-
   Reduced-order, contact-aware simulation of coupled graphene-inspired modes.
   A fixed paired protocol over twelve seeds found no computational advantage

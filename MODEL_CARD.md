@@ -3,9 +3,9 @@
 ## Identidad
 
 - Tipo: simulador reducido determinista con heterogeneidad sembrada.
-- versión del software: `1.0.1`; identifica el repositorio y esta ficha.
+- versión del software: `1.0.2`; identifica el repositorio y esta ficha.
 - versión del informe científico congelado: `1.0.0`; identifica `paper/main.tex` y `paper/main.pdf`.
-- Relación: el informe se conserva byte a byte junto con los demás payloads científicos en el patch de software 1.0.1; su rótulo histórico no identifica la versión del repositorio que los distribuye.
+- Relación: el informe se conserva byte a byte junto con los demás artefactos científicos en el patch de software 1.0.2; su rótulo histórico no identifica la versión del repositorio que los distribuye.
 - Evidencia: exclusivamente simulación.
 - Resultado principal: negativo bajo el protocolo canónico.
 

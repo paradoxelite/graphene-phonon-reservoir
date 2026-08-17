@@ -1,8 +1,6 @@
-import hashlib
 import json
 import math
 from pathlib import Path
-import sys
 
 from PIL import Image
 import pytest
@@ -109,10 +107,11 @@ def test_frozen_full_protocol_matches_current_producer(tmp_path):
     _assert_portable_equal(rebuilt, frozen)
     rebuilt_path = tmp_path / "results.json"
     study.write_results(rebuilt, rebuilt_path)
+    rebuilt_bytes = rebuilt_path.read_bytes()
+    assert b"\r\n" not in rebuilt_bytes
+    assert rebuilt_bytes.endswith(b"\n")
+    _assert_portable_equal(json.loads(rebuilt_bytes.decode("utf-8")), frozen)
     assert b"\r\n" not in frozen_path.read_bytes()
-    if sys.platform == "win32":
-        assert rebuilt == frozen
-        assert rebuilt_path.read_bytes() == frozen_path.read_bytes()
     assert frozen["protocol"]["trial_count"] == 12
     assert frozen["protocol"]["evidence_scope"].startswith(
         "reduced-order simulation only"
@@ -136,9 +135,4 @@ def test_frozen_figures_match_current_results_producer(tmp_path):
             assert (
                 generated_image.convert("RGBA").tobytes()
                 == frozen_image.convert("RGBA").tobytes()
-            )
-        if sys.platform == "win32":
-            assert (
-                hashlib.sha256(path.read_bytes()).hexdigest()
-                == hashlib.sha256(tracked.read_bytes()).hexdigest()
             )

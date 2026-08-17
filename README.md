@@ -176,11 +176,11 @@ Una ejecución de `reproduce.py` produce o actualiza:
 
 - Entorno de referencia: Python 3.11.9.
 - CI: Ubuntu 24.04 y Windows 2025.
-- Windows conserva identidad byte a byte de JSON y PNG.
-- Ubuntu 24.04 conserva estructura y texto exactos, valores flotantes dentro de `rtol=2e-11` y `atol=2e-12`, y píxeles RGBA exactos.
+- Ubuntu 24.04 y Windows 2025 conservan estructura, tipos y texto exactos, valores flotantes dentro de `rtol=2e-11` y `atol=2e-12`, y píxeles RGBA exactos.
+- La identidad de los bytes serializados o comprimidos no forma parte del contrato entre runners: BLAS y la codificación PNG pueden variar sin cambiar los datos o píxeles aceptados.
 - Otros sistemas POSIX, incluido macOS, no forman parte de la matriz verificada.
 
-En la reproducción observada sobre Ubuntu, 51 valores derivados de BLAS variaron como máximo `1.65e-12` en valor absoluto y `1.38e-11` en valor relativo. Los píxeles fueron idénticos aunque la codificación binaria de los PNG cambió. El contrato distingue estas diferencias de plataforma de un cambio en el resultado científico.
+En las reproducciones observadas, 51 valores derivados de BLAS variaron como máximo `1.65e-12` en valor absoluto y `1.38e-11` en valor relativo sobre Ubuntu; otro runner Windows alcanzó `1.54e-12` y `1.17e-11`, respectivamente. Los píxeles fueron idénticos aunque la codificación binaria de los PNG puede cambiar. El contrato distingue estas diferencias de plataforma de un cambio en el resultado científico.
 
 ## Estructura del repositorio
 
@@ -210,9 +210,9 @@ En la reproducción observada sobre Ubuntu, 51 valores derivados de BLAS variaro
 
 ## Versiones
 
-La **versión del software: `1.0.2`** identifica el repositorio, el código y esta documentación. La **versión del informe científico congelado: `1.0.0`** identifica `paper/main.tex` y `paper/main.pdf`.
+La **versión del software: `1.0.3`** identifica el repositorio, el código y esta documentación. La **versión del informe científico congelado: `1.0.0`** identifica `paper/main.tex` y `paper/main.pdf`.
 
-El informe científico **se conserva byte a byte** dentro de la versión 1.0.2, al igual que los datos publicados originalmente. Por eso la portada del PDF dice “Versión 1.0.0”; no es un error de la versión del repositorio. Para citar el software use `v1.0.2`, y para referirse al informe incluido use `1.0.0`. El historial de cambios está en [`CHANGELOG.md`](CHANGELOG.md).
+El informe científico **se conserva byte a byte** dentro de la versión 1.0.3, al igual que los datos publicados originalmente. Por eso la portada del PDF dice “Versión 1.0.0”; no es un error de la versión del repositorio. Para citar el software use `v1.0.3`, y para referirse al informe incluido use `1.0.0`. El historial de cambios está en [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Cita
 

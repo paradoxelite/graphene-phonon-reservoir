@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3 — 2026-08-16
+
+- Preserved the immutable `v1.0.2` tag and its failed tag-triggered CI run `31997393824` instead of rewriting the published reference.
+- Removed the Windows-only compressed-byte identity requirement and applied the existing portable contract uniformly to Ubuntu and Windows: exact JSON structure/types/text, floats within `rtol=2e-11` and `atol=2e-12`, and exact decoded RGBA pixels.
+- Reconstructed the failing Windows comparison from the CI log: 51 floats differed, with maxima `1.54e-12` absolute and `1.17e-11` relative; there were no structural mismatches and every value satisfied the declared portable bounds.
+- Kept the simulation implementation, report, results, figures and artifact manifest unchanged; this patch changes release metadata, documentation and portability tests only.
+
 ## 1.0.2 — 2026-08-16
 
 - Replaced the repository-facing README with public documentation centered on purpose, installation, execution, outputs, compatibility, testing and limitations.
